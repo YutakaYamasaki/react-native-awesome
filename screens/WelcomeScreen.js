@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Image, Alert } from 'react-native';
+import { Button } from 'react-native-elements';
 
 const SCREEN_WIDTH =Dimensions.get('window').width;
 const SLIDE_DATA = [
@@ -9,6 +10,29 @@ const SLIDE_DATA = [
 ];
 
 class WelcomeScreen extends React.Component{
+    onStartButtonPress = () =>{
+        this.props.navigation.navigate('main');
+        // Alert.alert(
+        //     'Alert',
+        //     'This button was pressed',
+        //     [
+        //         { text: 'OK' }
+        //     ],
+        //     {cancelable: false }
+        // );
+    }
+    renderLastButton(index){
+        if(index === SLIDE_DATA.length - 1 ){
+            return (
+                <Button
+                style={{ padding:10 }}
+                buttonStyle={{ backgroundColor: 'deepskyblue' }}
+                title="Let's get it started" 
+                onPress={this.onStartButtonPress}
+                />
+            )
+        }
+    }
     renderSlides(){
         return SLIDE_DATA.map((slide, index) => {
             return (
@@ -18,14 +42,20 @@ class WelcomeScreen extends React.Component{
                     <View
                     style={styles.containerStyle}
                     >
-                        <Text>{slide.title}</Text>
-                        <Text>{slide.text}</Text>
+                        <Text style={styles.textStyle}>{slide.title}</Text>
+                        <Text style={styles.textStyle}>{slide.text}</Text>
                     </View>
                     <Image style={{flex:2 }}
                     resizeMode="contain"
                     source={slide.uri} />
                     <View style={styles.containerStyle}>
-                        <Text>{index + 1}</Text>
+                        {/* <Button
+                         style={{ padding: 10 }}
+                         buttonStyle={{ backgroundColor: 'deepskyblue' }}
+                         title="Let's get it started!"
+                        /> */}
+                        {this.renderLastButton(index)}
+                        <Text style={styles.textStyle}>{index + 1}</Text>
                     </View>
                 </View>
             )
@@ -55,6 +85,11 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    textStyle: {
+        color: 'white',
+        fontSize: 20,
+        padding:5
     }
 })
 
